@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Employee Dashboard</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+  <!-- LOGIN PAGE -->
+
+  <div id="loginPage" class="login-page">
+
+    <div class="login-box">
+
+      <h1>EMPLOYEE LOGIN</h1>
+
+      <input
+        type="text"
+        id="employeeId"
+        placeholder="Employee ID">
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Password">
+
+      <button onclick="login()">
+        Login
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- MAIN APP -->
+
+  <div id="mainApp">
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+      <h2>EMPLOYEE HUB</h2>
+
+      <ul>
+
+        <li onclick="showPage('dashboardPage')">
+          Dashboard
+        </li>
+
+        <li onclick="showPage('taskPage')">
+          Tasks
+        </li>
+
+        <li onclick="showPage('attendancePage')">
+          Attendance
+        </li>
+
+        <li onclick="showPage('reportPage')">
+          Reports
+        </li>
+
+        <li onclick="showPage('profilePage')">
+          Profile
+        </li>
+
+      </ul>
+
+      <button id="themeBtn">
+        🌙 Dark Mode
+      </button>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+      <!-- TOPBAR -->
+
+      <div class="topbar">
+
+        <div>
+
+          <h1>DASHBOARD</h1>
+
+          <p>
+            Welcome Back Employee
+          </p>
+
+        </div>
+
+        <div class="top-right">
+
+          <div class="clock-box">
+
+            <span>Current Time</span>
+
+            <h2 id="clock"></h2>
+
+          </div>
+
+          <img
+            src="https://randomuser.me/api/portraits/men/32.jpg"
+            class="avatar">
+
+        </div>
+
+      </div>
+
+      <!-- DASHBOARD PAGE -->
+
+      <div id="dashboardPage" class="page active">
+
+        <div class="stats">
+
+          <div class="card cyan">
+
+            <h2 id="totalTasks">0</h2>
+
+            <p>Total Tasks</p>
+
+          </div>
+
+          <div class="card green">
+
+            <h2 id="completedTasks">0</h2>
+
+            <p>Completed Tasks</p>
+
+          </div>
+
+          <div class="card orange">
+
+            <h2 id="pendingTasks">0</h2>
+
+            <p>Pending Tasks</p>
+
+          </div>
+
+          <div class="card pink">
+
+            <h2 id="attendanceStatus">
+              Present
+            </h2>
+
+            <p>Attendance Status</p>
+
+          </div>
+
+        </div>
+
+        <div class="chart-container">
+
+          <canvas id="taskChart"></canvas>
+
+        </div>
+
+      </div>
+
+      <!-- TASK PAGE -->
+
+      <div id="taskPage" class="page">
+
+        <div class="section-title">
+
+          <h2>Task Management</h2>
+
+        </div>
+
+        <div class="task-controls">
+
+          <input
+            type="text"
+            id="taskInput"
+            placeholder="Task Name">
+
+          <input
+            type="date"
+            id="dueDate">
+
+          <select id="priority">
+
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+
+          </select>
+
+          <button onclick="addTask()">
+            Add Task
+          </button>
+
+        </div>
+
+        <div class="search-box">
+
+          <input
+            type="text"
+            id="searchTask"
+            placeholder="Search Task"
+            onkeyup="searchTask()">
+
+        </div>
+
+        <div class="task-columns">
+
+          <div class="column">
+
+            <h3>To Do</h3>
+
+            <div id="todo"></div>
+
+          </div>
+
+          <div class="column">
+
+            <h3>Completed</h3>
+
+            <div id="completed"></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ATTENDANCE PAGE -->
+
+      <div id="attendancePage" class="page">
+
+        <h2>Attendance Tracker</h2>
+
+        <table>
+
+          <tr>
+
+            <th>Day</th>
+            <th>Status</th>
+
+          </tr>
+
+          <tr>
+
+            <td>Monday</td>
+
+            <td>
+
+              <select>
+                <option>Present</option>
+                <option>Absent</option>
+              </select>
+
+            </td>
+
+          </tr>
+
+          <tr>
+
+            <td>Tuesday</td>
+
+            <td>
+
+              <select>
+                <option>Present</option>
+                <option>Absent</option>
+              </select>
+
+            </td>
+
+          </tr>
+
+          <tr>
+
+            <td>Wednesday</td>
+
+            <td>
+
+              <select>
+                <option>Present</option>
+                <option>Absent</option>
+              </select>
+
+            </td>
+
+          </tr>
+
+          <tr>
+
+            <td>Thursday</td>
+
+            <td>
+
+              <select>
+                <option>Present</option>
+                <option>Absent</option>
+              </select>
+
+            </td>
+
+          </tr>
+
+          <tr>
+
+            <td>Friday</td>
+
+            <td>
+
+              <select>
+                <option>Present</option>
+                <option>Absent</option>
+              </select>
+
+            </td>
+
+          </tr>
+
+        </table>
+
+      </div>
+
+      <!-- REPORT PAGE -->
+
+      <div id="reportPage" class="page">
+
+        <h2>Daily Work Report</h2>
+
+        <textarea
+          id="reportText"
+          placeholder="Write today's work">
+        </textarea>
+
+        <button onclick="submitReport()">
+          Submit Report
+        </button>
+
+      </div>
+
+      <!-- PROFILE PAGE -->
+
+      <div id="profilePage" class="page">
+
+        <div class="profile-card">
+
+          <img
+             src="https://randomuser.me/api/portraits/men/75.jpg"
+            class="avatar">
+          <h2>Sandy</h2>
+
+          <p>Software Engineer </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- NOTIFICATION -->
+
+  <div id="notification"></div>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
